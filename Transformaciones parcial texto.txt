@@ -1,0 +1,176 @@
+<!-- Juan David Rocha Medina 
+     codigo= 6000634
+     Parcial corte 1 
+-->
+<body>                                         <!-- el body es un elemento que representa  contenido principal de la pagina web -->     
+<canvas id="canvas" height=1000 width=1000>    }
+<script>
+function dibuja() {                               <!-- aqui es tenemos que seria la funcion dibujar  -->
+  var lienzo = document.getElementById('canvas'); <!--en este caso definimos lienzo como una variabe con eso el getElementary es un metodo permite seleccionar un elemento del documento por medio de un valor del atributo que se le haya asignado-->
+  if (lienzo.getContext) {
+    var ctx = lienzo.getContext('2d');            <!--el metodo getcontext lo que hace es devolver o retornar un contexto de dibujo en el lienzo en este caso el 2d dando lugar  a la creacion de un objeto-->
+
+    ctx.fillRect(25, 25, 100, 100);
+    ctx.clearRect(45, 45, 60, 60);
+    ctx.strokeRect(50, 50, 50, 50);
+  }
+
+}
+
+<!-- en este  caso tab antes se llamaba ctx que para el programa seria como nuestro tablero podemos ponerle el nombre que queramos  y lo definimos en la funcion-->
+
+    function triangle (tab, x1, y1, x2, y2, x3, y3, fill=false) {
+    tab.beginPath();
+    tab.moveTo(x1, y1);      <!--aqui nos movemos en el punto inicial  -->
+    tab.lineTo(x2, y2);      <!-- aqui se traza la linea de un punto a otro -->
+    tab.lineTo(x3, y3);      <!-- aqui la segunda linea -->
+    if (fill)
+        tab.fill();          <!-- aqui nos da un triangulo relleno -->
+      else {
+        tab.closePath();     <!-- Sirve para cerrar un camino , volviendo asi a su punto inicial del dibujo -->
+        tab.stroke();         <!-- la funcion stroke nos sirve para dibujar la linea por todo el camino que hayamos creado -->
+    }
+}
+
+<!--aqui desarrollaremos la funcion rotar en pero tenemos que hacerlo de forma separada como lo sera en x y y -->
+<!-- le asignaremos 3 parametros para esta funcion que sera el angulo y la cordenada en x y y-->
+
+
+    function rotarx(angle,x,y){
+
+    radianes=(Math.PI/180)*angle;     <!--lo que haremos primero es pasar de angulos a radianes, el Math.PIes una propiedad que hace referencia a Pi= 3014159--> 
+    seno = Math.sin(radianes);        <!-- con esta formula sacaremos el seno del angulo en este caso en radianes  y el Math.sin es un metodo que devuelve un valor numerico ente -1 y 1 que representa el seno del angulo dado en radianes -->
+    coseno = Math.cos(radianes);      <!-- con esta formula sacaremos el coseno del angulo y el Math.cos es el metodo para que nos retorne un valor numerico entre -1 y q que representa  el coseno del angulo en radianes -->
+    
+    coordenadax = (x*coseno+y*seno);         <!-- tenemos la formula de la primera coordenada x donde se rotara el triangulo  -->
+    return coordenadax;                    <!--aqui retornaremos coordenada x-->
+   
+
+}
+
+<!-- aqui sencillamente realizamos el mismo proceso como lo desarrollamos con la funcion de rotar en x , lo unico que cambiara sera la formula de cordenada y para desplazarse por el eje -->
+
+    function rotary(angle,x,y){
+
+    radianes=(Math.PI/180)*angle;
+    seno = Math.sin(radianes);
+    coseno = Math.cos(rad);
+    
+    coordenaday = (y*coseno-x*seno);
+    return coordenaday;
+   
+
+}
+
+
+
+<!-- en esta funcion dibujaremos todos los procesos que desarrollaremos con los triangulos y cuadrados bien sea solo dibujarlo tambien transladarlo , realizarle un escalado a los cuadrados y por ultimo hacer una rotacion anterior mente en las primeras lineas de codigo se explico la dincionalidad del canvas o lienzo ya es de uso libre como lo quieran llamar -->
+
+
+  function draw() {
+  var canvas = document.getElementById('canvas');
+  if (canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+
+    
+
+    <!--le asignamos valores a las variables establecidas en la funcion trangle para asi dibujarla en el lienzo -->
+
+    x1=60;
+    y1=50; 
+    x2=100; 
+    y2=75; 
+    x3=60; 
+    y3=10;    
+
+    triangle (ctx, x1, y1, x2, y2, x3, y3, true);
+
+
+     <!-- se realiza la trnaslacion del triangulo con los siguientes valores  dx=60 y dy=20 -->
+
+    dx=60;
+    dy=20
+
+    triangulo(ctx, x1+dx, y1+dy, x2+dx, y2+dy, x3+dx, y3+dy);
+
+    <!-- se realiza el escalado del cuadrado ya hecho con un incremento del 50% donde s=50-->
+    
+    s=50
+    //Cuadrado(ctx, .....);
+
+    rx1=300;
+    ry1=84; 
+    rancho=120; 
+    ralto=120
+
+    ctx.strokeRect(rx1, ry1, rancho, ralto);
+
+    ctx.strokeRect(rx1-(rancho*s/200), ry1-(ralto*s/200), rancho*(1+s/100), ralto*(1+s/100));
+
+
+    <!-- para el desarrollo de la rotacion de un cuadrado  se tomo en cuenta un metodo que se podria usar el cual es la rotacion apartir de dos triangulo, sabemos que un cuadrado lo podemos dividir en 2 triangulo si hacemos que ambos triangulos al estar divididos formen un cuadrado y asi tambien puedan rotar ambos al msmo tiempo sin que estos se deformen o se transladen a otro lado y asi digan su continuidad sin que el cuadrado se deforme -->
+
+  
+  
+
+   <!-- estableceremos el tamaño de ambos triangulos asi que los decidimos llamar triangulo derecha y triangulo izquierda con ello no nos confundimos les asignamos su coordenadas principales  asi se establecera un tamaño unico y no se deformara-->
+  
+   x1derecha=150; y1derecha=150, x2derecha=100; y2derecha=150; x3derecha=150; y3derecha=100; 
+   x1izquierda=100; y1izquierda=150; x2izquierda=150; y2izquierda=100; x3izquierda=100; y3izquierda=100;
+
+
+<!-- le asignamos los prametros a la funcion triangulo , los parametros seran las coordenadas de cada triangulo -->
+
+   triangulo(ctx, x1izquierda, y1izquierda, x2izquierda, y2izquierda, x3izquierda, y3izquierda, true); 
+   triangulo(ctx, x1derecha, y1derecha, x2derecha, y2derecha, x3derecha, y3derecha, true);  
+   
+<!-- para este procedimiento  vamos a empezar por el triangulo de la izquierda recuerden que tenemos la funcion rotar ya en este tenemos el procedimiento elaborado  solo es llamarlo  y asignarle los parametos los cuales con el angulo que le vas asignar para que realice la rotacion  y ya lo que son las coordenadas x y y ya estan asignadas recuerden que por el tamaño de la consola aun asi si este dara la vuelta completa  tenemos un intervalo de (-60 grados , 60 grados) -->
+  
+   
+
+   angulo=-35; 
+
+   tx1izquierda=rotarx(angulo, x1izquierda, y1izquierda);
+   ty1izquierda=rotary(angulo, x1izquierda, y1izquierda);
+   tx2izquierda=rotarx(angulo, x2izquierda, y2izquierda);
+   ty2izquierda=rotary(angulo, x2izquierda, y2izquierda);
+   tx3izquierda=rotarx(angulo, x3izquierda, y3izquierda);
+   ty3izquierda=rotary(angulo, x3izquierda, y3izquierda);
+   
+   triangulo(ctx, tx1izquierda, ty1izquierda, tx2izquierda, ty2izquierda, tx3izquierda, ty3izquierda,true);
+
+<!-- Realizamos lo mismo con el triangulo de la derecha -->
+  
+
+   tx1derecha=rotarx(angulo, x1derecha, y1derecha);
+   ty1derecha=rotary(angulo, x1derecha, y1derecha);
+   tx2derecha=rotarx(angulo, x2derecha, y2derecha);
+   ty2derecha=rotary(angulo, x2derecha, y2derecha);
+   tx3derecha=rotarx(angulo, x3derecha, y3derecha);
+   ty3derecha=rotary(angulo, x3derecha, y3derecha);
+
+
+   triangle (ctx, tx1derecha, ty1derecha, tx2derecha, ty2derecha, tx3derecha, ty3derecha,true);
+
+
+
+
+  }
+}
+//dibuja();
+draw();
+</script>
+</body>
+<!-- para la ayuda del procedimiento de la rotacion del triangulo lo tome de las siguientes referencias: 
+referencia 1 = https://www.ck12.org/book/ck-12-conceptos-de-matemáticas-de-la-escuela-secundaria-grado-7-en-español/section/8.19/           
+referencia 2 =  https://es.khanacademy.org/math/geometry/hs-geo-transformations/hs-geo-rotations/v/points-after-rotation
+referencia 3 = https://www.geogebra.org/m/WedFs95B
+referencia 4 = https://www.ck12.org/book/ck-12-geometría-en-español/section/4.8/  -->
+
+
+<!--referencias y conceptos buscados
+pagina no1: https://desarrolloweb.com/articulos/ejemplo2-dibujo-caminos-canvas.html
+pagina no2: https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Math/PI
+pagina no3: https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Math/sin
+
+-->
